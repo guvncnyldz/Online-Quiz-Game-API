@@ -8,7 +8,7 @@ const { logger} = require('../utils');
 
 /* Online User Count */
 router.get('/onlineusercount', (req, res) =>{
-    User.count({ is_login: true, is_visible: true }, function(err, result) {
+    User.count({ is_login: true, is_visible: true}, function(err, result) {
         if (err) {
           logger.err(err);
         } else {
@@ -18,11 +18,11 @@ router.get('/onlineusercount', (req, res) =>{
 });
 
 /* User Information */
-router.get('/information/:uid', (req, res) =>{
+router.get('/information', (req, res) =>{
     User.aggregate([
         {
           $match:{
-             _id: mongoose.Types.ObjectId(req.params.uid),
+             _id: mongoose.Types.ObjectId(req.query.uid),
              is_visible: true
           }
         },
@@ -37,7 +37,7 @@ router.get('/information/:uid', (req, res) =>{
         {
             $project:{
                 "_id":1,
-                "race_id":1,
+                "race":1,
                 "user_name": 1,
                 "e_mail":1,
                 "device_id":1,
@@ -48,11 +48,11 @@ router.get('/information/:uid', (req, res) =>{
                 "profile.photo":1
             }
         },
-        { 
+        {
             $unwind:{
                 path: "$profile",
                 preserveNullAndEmptyArrays: true
-            } 
+            }
         }
       ],(err,user) =>{
         if(err) logger.error(err);
@@ -70,7 +70,7 @@ router.get('/information/:uid', (req, res) =>{
 
 /* Sıralama */
 router.get('/ranking', (req,res) => {
-   const {mod_id, race_id, type} = req.query;
+   const {mod_id, race, type} = req.query;
    let startDate, endDate;
    let d = new Date();
    let date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
@@ -96,8 +96,8 @@ router.get('/ranking', (req,res) => {
    let matchParam = {}
    if(mod_id)
         matchParam.mod_id = mongoose.Types.ObjectId(mod_id)
-   if(race_id)
-        matchParam.race_id = mongoose.Types.ObjectId(race_id)
+   if(race)
+        matchParam.race = race
     matchParam.date ={ $gt: startDate, $lt: endDate} 
     
    Scores.aggregate([

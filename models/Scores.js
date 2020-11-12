@@ -4,7 +4,7 @@ const Schema=mongoose.Schema;
 const ScoreSchema = new Schema ({
     mod_id: Schema.Types.ObjectId,
     user_id: Schema.Types.ObjectId,
-    race_id: Schema.Types.ObjectId,
+    race: Number,
     date: {
         type: Date,
         default: Date.now

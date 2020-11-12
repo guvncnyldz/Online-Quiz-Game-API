@@ -30,7 +30,7 @@ router.get('/useritems/:uid', (req, res) =>{
                 "item.item_name":1,
                 "item.photo":1,
                 "item.type":1,
-                "item.race_id":1
+                "item.race":1
             }
         }
       ],(err,inventory) =>{

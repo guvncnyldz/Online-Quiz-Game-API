@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema=mongoose.Schema;
 
 const UserSchema = new Schema ({
-    race_id: Schema.Types.ObjectId,
+    race: Number,
     user_name: {
         type: String,
         required: true,
@@ -20,7 +20,7 @@ const UserSchema = new Schema ({
     },
     is_login:{
         type: Boolean,
-        default: false
+        default: true
     },
     is_visible:{
         type: Boolean,
