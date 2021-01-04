@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema=mongoose.Schema;
 
 const TokenSchema = new Schema ({
-    user_id: Schema.Types.ObjectId,
+    device_id: String,
     token:{
         type: String,
     }

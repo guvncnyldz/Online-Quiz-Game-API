@@ -25,7 +25,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/WebstormProjects/untitled3" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -52,6 +52,10 @@
       <workItem from="1603999623045" duration="492000" />
       <workItem from="1604000202124" duration="4233000" />
       <workItem from="1605169121362" duration="20175000" />
+      <workItem from="1605255837804" duration="27000" />
+      <workItem from="1609201365934" duration="8778000" />
+      <workItem from="1609283040052" duration="25485000" />
+      <workItem from="1609627103549" duration="43376000" />
     </task>
     <servers />
   </component>
@@ -63,19 +67,24 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824/-1920.-81.1920.1040@0.0.1536.824" timestamp="1605193438889" />
-    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1605171770184">
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1609652796537">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824/-1920.-81.1920.1040@0.0.1536.824" timestamp="1605171770184" />
-    <state x="-1371" y="-10" width="1299" height="579" maximized="true" key="dock-window-1" timestamp="1605181917941">
-      <screen x="-1920" y="-81" width="1920" height="1040" />
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1609652796537" />
+    <state x="-1371" y="-10" width="1299" height="579" maximized="true" key="dock-window-1" timestamp="1605255864829">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="-1371" y="-10" width="1299" height="579" maximized="true" key="dock-window-1/0.0.1536.824/-1920.-81.1920.1040@0.0.1536.824" timestamp="1605181917941" />
-    <state x="478" y="11" width="579" height="801" key="find.popup" timestamp="1605193723705">
+    <state x="478" y="11" width="579" height="801" key="find.popup" timestamp="1609705519515">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="-1322" y="-67" width="724" height="1011" key="find.popup/0.0.1536.824/-1920.-81.1920.1040@-1920.-81.1920.1040" timestamp="1605170913077" />
     <state x="478" y="11" width="579" height="801" key="find.popup/0.0.1536.824/-1920.-81.1920.1040@0.0.1536.824" timestamp="1605193723705" />
-    <state x="478" y="11" width="579" height="801" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1604001648308" />
+    <state x="478" y="11" width="579" height="801" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1609705519515" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1609286171906">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1609286171906" />
   </component>
 </project>

@@ -11,7 +11,8 @@ var jokerRouter = require('./routes/jokers');
 var storeRouter = require('./routes/store')
 var announcementRouter = require('./routes/announcement')
 var definationRouter = require('./routes/defination')
-var questionRouter = require('./routes/questions')
+var questionRouter = require('./routes/question')
+var wordRouter = require('./routes/words')
 
 var app = express();
 
@@ -23,10 +24,12 @@ const config=require('./config');
 app.set('api_secret_key',config.api_secret_key)
 app.set('version',config.app_version)
 //Middleware
-const { httpLogger,verifyToken} = require('./middleware');
+const {httpLogger,verifyToken} = require('./middleware');
 
 //Utils 
 const { logger} = require('./utils');
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -40,6 +43,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
 app.use('/api',verifyToken);
+//app.use('/admin/question',questionRouter)
 app.use('/api/users', userRouter);
 app.use('/api/inventory', inventoryRouter);
 app.use('/api/joker', jokerRouter);
@@ -47,6 +51,7 @@ app.use('/api/store', storeRouter)
 app.use('/api/announcement', announcementRouter)
 app.use('/api/defination', definationRouter)
 app.use('/api/question', questionRouter)
+app.use('/api/word', wordRouter)
 
 
 // catch 404 and forward to error handler

@@ -8,30 +8,57 @@ const mongoose = require('mongoose')
 const {logger} = require('../utils');
 /* Register */
 router.post('/register', (req, res) => {
-    const {race, user_name, password, e_mail, device_id,} = req.body;
+    const {user_name, password, e_mail, device_id,} = req.body;
     User.find({$or: [{user_name}, {e_mail}]}, (err, user) => {
         if (err) {
             logger.log(err)
             throw err;
         }
         if (user.length != 0) {
-            res.json({login: false})
+            res.json({
+                code: 403,
+                message: "Bu kullanıcı bulunmakta"
+            })
             return;
         }
         new User({
-            race: race,
             user_name,
             password,
             e_mail,
             device_id
         }).save().then((user) => {
             new Profile({
-                user_id: user._id
-            }).save().then(() => {
-                CreateToken(user._id, req, (token) => {
+                user_id: user._id,
+                user_name
+            }).save((err, profile) => {
+                CreateToken(device_id, req, (token) => {
                     res.json({
-                        user_id: user._id,
-                        login: true,
+                        user: {
+                            _id: user._id,
+                            user_name: user.user_name,
+                            e_mail: user.e_mail,
+                            profile: {
+                                _id: profile._id,
+                                user_name: profile.user_name,
+                                race: profile.race,
+                                coin: profile.coin,
+                                money: profile.money,
+                                energy: profile.energy,
+                                joker: {
+                                    pass: profile.joker.pass,
+                                    bomb: profile.joker.bomb,
+                                    correct: profile.joker.correct
+                                },
+                                cosmetic: {
+                                    head: profile.cosmetic.head,
+                                    body: profile.cosmetic.body,
+                                    foot: profile.cosmetic.foot,
+                                    hand: profile.cosmetic.hand,
+                                    hair: profile.cosmetic.hair,
+                                    eye: profile.cosmetic.eye,
+                                }
+                            }
+                        },
                         token
                     })
                 });
@@ -42,99 +69,177 @@ router.post('/register', (req, res) => {
         })
     });
 });
-
 /* Authenticate */
 router.post('/login', (req, res) => {
     const {user_name, password, device_id} = req.body;
-    User.findOneAndUpdate({
-        user_name,
-        password,
-        is_visible: true,
-    },{is_login: true,device_id}, (err, user) => {
-        if (err) {
-            logger.error(err)
-            throw err;
-        }
-        if (!user) {
-            logger.info(user_name + " isimli kullanıcının bilgileri yanlış girildi")
-            res.status(404).send('Girdiğiniz bilgilere ait kullanıcı bulunamadı');
-        } else {
-            CreateToken(user._id, req, (token) => {
-                res.json({
-                    user_id: user._id,
-                    login: true,
-                    token
+    User.aggregate([
+            {
+                $match: {
+                    user_name,
+                    password,
+                    is_visible: true
+                }
+            },
+            {
+                $lookup: {
+                    from: "Profile",
+                    localField: "_id",
+                    foreignField: "user_id",
+                    as: "profile"
+                }
+            },
+            {
+                $project: {
+                    "_id": 1,
+                    "user_name": 1,
+                    "e_mail": 1,
+                    "profile.user_name": 1,
+                    "profile.race": 1,
+                    "profile.coin": 1,
+                    "profile.money": 1,
+                    "profile.energy": 1,
+                    "profile._id": 1,
+                    "profile.joker.pass": 1,
+                    "profile.joker.bomb": 1,
+                    "profile.joker.correct": 1,
+                    "profile.cosmetic.head": 1,
+                    "profile.cosmetic.body": 1,
+                    "profile.cosmetic.foot": 1,
+                    "profile.cosmetic.hand": 1,
+                    "profile.cosmetic.hair": 1,
+                    "profile.cosmetic.eye": 1,
+                }
+            },
+            {
+                $unwind: {
+                    path: "$profile",
+                    preserveNullAndEmptyArrays: true
+                }
+            }
+        ],
+        (err, user) => {
+            if (err) {
+                logger.error(err)
+                throw err;
+            }
+            if (user.length == 0) {
+                logger.info(user_name + " isimli kullanıcının bilgileri yanlış girildi")
+                res.status(404).json(
+                    {
+                        code: 404,
+                        message: "Girdiğiniz bilgilere ait kullanıcı bulunamadı."
+                    });
+            } else {
+                CreateToken(device_id, req, (token) => {
+                    User.updateOne({_id: mongoose.Types.ObjectId(user[0]._id)}, {
+                        device_id,
+                        is_login: true
+                    }).exec()
+                    res.json({
+                        user: user[0],
+                        token
+                    })
                 })
-            })
-        }
-    })
+            }
+        })
 });
 
 /* Logout */
 router.post('/logout', (req, res) => {
-    const {user_id} = req.body;
-    User.findByIdAndUpdate(
-        user_id,
-        {
-            'is_login': false,
-        }
-    ).then((userInfo) => {
-        Token.deleteMany({user_id: mongoose.Types.ObjectId(userInfo._id)}, function (err) {
-            if (err) logger.error(err);
-        })
-        res.json({
-            user_id: userInfo._id,
-            login: false
-        })
-    }).catch((err) => {
-        res.json(err);
-    });
+    const {device_id} = req.body;
 
+    User.updateOne({device_id}, {is_login: false}).exec()
+    Token.deleteMany({device_id}).exec()
+
+    res.json({code: 200, message: "Çıkış yapıldı"})
 });
 
 /* Device Check */
 router.post('/devicecontrol', (req, res) => {
     const {device_id, version} = req.body;
-    if (req.app.get('version') == version) {
-        User.findOne({device_id,is_login:true}, (err,user) => {
 
+    if (req.app.get('version') == version) {
+        let d = new Date();
+        let date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds()));
+        User.aggregate([
+            {
+                $match: {
+                    device_id,
+                    is_visible: true,
+                    is_login: true
+                }
+            },
+            {
+                $lookup: {
+                    from: "Profile",
+                    localField: "_id",
+                    foreignField: "user_id",
+                    as: "profile"
+                }
+            },
+            {
+                $project: {
+                    "_id": 1,
+                    "user_name": 1,
+                    "e_mail": 1,
+                    "profile.user_name": 1,
+                    "profile.race": 1,
+                    "profile.coin": 1,
+                    "profile.money": 1,
+                    "profile.energy": 1,
+                    "profile._id": 1,
+                    "profile.joker.pass": 1,
+                    "profile.joker.bomb": 1,
+                    "profile.joker.correct": 1,
+                    "profile.cosmetic.head": 1,
+                    "profile.cosmetic.body": 1,
+                    "profile.cosmetic.foot": 1,
+                    "profile.cosmetic.hand": 1,
+                    "profile.cosmetic.hair": 1,
+                    "profile.cosmetic.eye": 1,
+                }
+            },
+            {
+                $unwind: {
+                    path: "$profile",
+                    preserveNullAndEmptyArrays: true
+                }
+            }
+        ], (err, user) => {
             if (err) logger.error(err);
-            if (user) {
-                CreateToken(user._id, req, (token) => {
+            if (user != 0) {
+                CreateToken(device_id, req, (token) => {
                     res.json({
-                        login: true,
-                        updated: true,
-                        user_id: user._id,
-                        token: token
+                        user: user[0],
+                        token: token,
                     })
                 })
             } else {
                 res.json({
-                    login: false,
-                    updated: true
+                    code: 404,
+                    message: "Cihaz bulunamadı"
                 })
             }
         })
     } else {
         res.json({
-            updated: false,
-            last_version: req.app.get("version")
+            code: 505,
+            message: "Versiyonunuz güncel değil. Güncel version: " + req.app.get("version")
         })
     }
 
 });
 
-function CreateToken(user_id, req, success) {
-    Token.deleteMany({user_id}, (err) => {
+function CreateToken(device_id, req, success) {
+    Token.deleteMany({device_id}, (err) => {
         if (err) {
             logger.log(err);
             throw err;
         }
-
-        const token = jwt.sign({user_id}, req.app.get('api_secret_key'), {expiresIn: '100 years'});
+        const token = jwt.sign({device_id}, req.app.get('api_secret_key'), {expiresIn: '100 years'});
         new Token({
             token,
-            user_id
+            device_id
         }).save().then(() => {
             success(token)
         });
