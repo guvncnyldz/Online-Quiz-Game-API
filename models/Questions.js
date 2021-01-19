@@ -11,11 +11,7 @@ const QuestionShema = new Schema ({
     answerC: {type: String, required: true},
     answerD: {type: String, required: true},
     correct_answer: {type: Number, required: true},
-    true_answer:{
-        type: Number,
-        default: 0
-    },
-    false_answer:{
+    average:{
         type: Number,
         default: 0
     },

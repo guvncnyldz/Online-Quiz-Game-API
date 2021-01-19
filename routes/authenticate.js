@@ -6,12 +6,12 @@ const Token = require('../models/Token');
 const Profile = require('../models/Profile')
 const mongoose = require('mongoose')
 const {logger} = require('../utils');
-/* Register */
+
 router.post('/register', (req, res) => {
     const {user_name, password, e_mail, device_id,} = req.body;
     User.find({$or: [{user_name}, {e_mail}]}, (err, user) => {
         if (err) {
-            logger.log(err)
+            logger.error(new Date().toISOString() + JSON.stringify(req.body) + err)
             throw err;
         }
         if (user.length != 0) {
@@ -21,17 +21,22 @@ router.post('/register', (req, res) => {
             })
             return;
         }
+
+        let gift_date = new Date()
+        gift_date.setDate(gift_date.getDate() - 1)
+
         new User({
             user_name,
             password,
             e_mail,
-            device_id
+            device_id,
+            last_gift: gift_date
         }).save().then((user) => {
             new Profile({
                 user_id: user._id,
                 user_name
             }).save((err, profile) => {
-                CreateToken(device_id, req, (token) => {
+                CreateToken(user._id, req, (token) => {
                     res.json({
                         user: {
                             _id: user._id,
@@ -64,8 +69,7 @@ router.post('/register', (req, res) => {
                 });
             })
         }).catch((err) => {
-            res.json(err);
-            logger.error(err)
+            logger.error(new Date().toISOString() + JSON.stringify(req.body) + err)
         })
     });
 });
@@ -119,7 +123,7 @@ router.post('/login', (req, res) => {
         ],
         (err, user) => {
             if (err) {
-                logger.error(err)
+                logger.error(new Date().toISOString() + JSON.stringify(req.body) + err)
                 throw err;
             }
             if (user.length == 0) {
@@ -130,7 +134,7 @@ router.post('/login', (req, res) => {
                         message: "Girdiğiniz bilgilere ait kullanıcı bulunamadı."
                     });
             } else {
-                CreateToken(device_id, req, (token) => {
+                CreateToken(user._id, req, (token) => {
                     User.updateOne({_id: mongoose.Types.ObjectId(user[0]._id)}, {
                         device_id,
                         is_login: true
@@ -206,9 +210,9 @@ router.post('/devicecontrol', (req, res) => {
                 }
             }
         ], (err, user) => {
-            if (err) logger.error(err);
+            if (err) logger.error(new Date().toISOString() + JSON.stringify(req.body) + err);
             if (user != 0) {
-                CreateToken(device_id, req, (token) => {
+                CreateToken(user._id, req, (token) => {
                     res.json({
                         user: user[0],
                         token: token,
@@ -230,16 +234,16 @@ router.post('/devicecontrol', (req, res) => {
 
 });
 
-function CreateToken(device_id, req, success) {
-    Token.deleteMany({device_id}, (err) => {
+function CreateToken(user_id, req, success) {
+    Token.deleteMany({user_id}, (err) => {
         if (err) {
-            logger.log(err);
+            logger.error(new Date().toISOString() + JSON.stringify(req.body) + err);
             throw err;
         }
-        const token = jwt.sign({device_id}, req.app.get('api_secret_key'), {expiresIn: '100 years'});
+        const token = jwt.sign({user_id}, req.app.get('api_secret_key'), {expiresIn: '100 years'});
         new Token({
             token,
-            device_id
+            user_id
         }).save().then(() => {
             success(token)
         });

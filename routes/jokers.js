@@ -13,7 +13,7 @@ router.put('/updatejoker', (req, res) => {
             pass, correct, bomb
         }
     Profile.updateOne({_id: pid}, {joker: updateJoker}, (err) => {
-        if (err) logger.log(err)
+        if (err) logger.error(new Date().toISOString() + JSON.stringify(req.body) + err);
         else {
             res.json({
                 code: 200,
@@ -50,7 +50,7 @@ router.get('/userjoker/:uid', (req, res) => {
             }
         }
     ], (err, jokers) => {
-        if (err) logger.error(err);
+        if (err) logger.error(new Date().toISOString() + JSON.stringify(req.body) + err);
         if (jokers.length == 0) {
             logger.info(req.params.uid + " id'li kullanıcının herhangi bir joker ı bulunmamaktadır..")
             res.json({
@@ -73,7 +73,7 @@ router.put('/usejoker/', (req, res) => {
             joker_id: joker_id,
             is_visible: true
         }, (err, joker) => {
-            if (err) logger.error(err);
+            if (err) logger.error(new Date().toISOString() + JSON.stringify(req.body) + err);
             if (joker) {
                 UserJoker.updateOne(
                     {
@@ -85,7 +85,7 @@ router.put('/usejoker/', (req, res) => {
                         count: joker.count - 1,
                         is_visible: joker.count > 1 ? true : false
                     }, (err, updateJoker) => {
-                        if (err) logger.error(err);
+                        if (err) logger.error(new Date().toISOString() + JSON.stringify(req.body) + err);
 
                         res.json({
                             status: true,

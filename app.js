@@ -5,14 +5,22 @@ var cookieParser = require('cookie-parser');
 
 var indexRouter = require('./routes/index');
 var authRouter = require('./routes/authenticate');
+var scoreRouter = require('./routes/scores');
 var userRouter = require('./routes/users');
 var inventoryRouter = require('./routes/inventory');
 var jokerRouter = require('./routes/jokers');
+var tournamentRouter = require('./routes/tournament');
 var storeRouter = require('./routes/store')
 var announcementRouter = require('./routes/announcement')
 var definationRouter = require('./routes/defination')
 var questionRouter = require('./routes/question')
 var wordRouter = require('./routes/words')
+
+var adminLoginRouter = require('./routes/Admin/adminlogin')
+var adminQuestionRouter = require('./routes/Admin/adminquestion')
+var adminCosmeticRouter = require('./routes/Admin/admincosmetic')
+var adminTournamentRouter = require('./routes/Admin/admintournament')
+var adminWordRouter = require('./routes/Admin/adminword')
 
 var app = express();
 
@@ -24,7 +32,7 @@ const config=require('./config');
 app.set('api_secret_key',config.api_secret_key)
 app.set('version',config.app_version)
 //Middleware
-const {httpLogger,verifyToken} = require('./middleware');
+const {httpLogger,verifyToken,adminVerifyToken} = require('./middleware');
 
 //Utils 
 const { logger} = require('./utils');
@@ -42,8 +50,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
+app.use('/admin', adminVerifyToken);
 app.use('/api',verifyToken);
-//app.use('/admin/question',questionRouter)
 app.use('/api/users', userRouter);
 app.use('/api/inventory', inventoryRouter);
 app.use('/api/joker', jokerRouter);
@@ -51,7 +59,15 @@ app.use('/api/store', storeRouter)
 app.use('/api/announcement', announcementRouter)
 app.use('/api/defination', definationRouter)
 app.use('/api/question', questionRouter)
+app.use('/api/tournament', tournamentRouter)
 app.use('/api/word', wordRouter)
+app.use('/api/score', scoreRouter)
+
+app.use('/admin/question', adminQuestionRouter)
+app.use('/admin/word', adminWordRouter)
+app.use('/admin/cosmetic', adminCosmeticRouter)
+app.use('/admin/tournament', adminTournamentRouter)
+app.use('/adminauth', adminLoginRouter)
 
 
 // catch 404 and forward to error handler

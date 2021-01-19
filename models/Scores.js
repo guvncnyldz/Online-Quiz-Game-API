@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 const Schema=mongoose.Schema;
 
 const ScoreSchema = new Schema ({
-    mod_id: Schema.Types.ObjectId,
+    profile_id: Schema.Types.ObjectId,
     user_id: Schema.Types.ObjectId,
+    mod_id: Number,
     race: Number,
     date: {
         type: Date,
@@ -12,11 +13,11 @@ const ScoreSchema = new Schema ({
     true_answer:{
         type: Number
     },
-    false_answer:{
+    earn:{
         type: Number
     },
-    score:{
-        type: Number
+    win: {
+        type: Boolean
     }
 },{ collection: 'Scores' })
 

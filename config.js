@@ -3,5 +3,5 @@ module.exports={
     db_server: 'localhost',
     db_port: '27017',
     db_name: 'bilgiYarismasi',
-    app_version: '0.1'
+    app_version: '0.2'
 }

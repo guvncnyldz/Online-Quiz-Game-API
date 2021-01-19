@@ -21,6 +21,13 @@ const UserSchema = new Schema ({
         type: Boolean,
         default: true
     },
+    last_gift:{
+        type: Date
+    },
+    gift_series:{
+        type: Number,
+        default: 0
+    },
     is_visible:{
         type: Boolean,
         default: true

@@ -1,7 +1,7 @@
 const Question = require('../../models/Questions')
 const {logger} = require('../../utils');
 
-const total_count = 3;
+const total_count = 2;
 exports.servers = rooms = []
 
 module.exports.SetServer = (player) => {
@@ -56,12 +56,12 @@ class LastManRoom {
     GetQuestion(success)
     {
         Question.countDocuments((err, question_count) => {
-            if (err) logger.log(err);
+            if (err) logger.error(new Date().toISOString() + JSON.stringify(req.body) + err);
 
             let random = Math.floor(Math.random() * question_count)
 
             Question.findOne((err, question) => {
-                if (err) logger.log(err);
+                if (err) logger.error(new Date().toISOString() + JSON.stringify(req.body) + err);
                 else if (question) {
                     this.current_question = question;
                     success()

@@ -8,7 +8,7 @@ const GameMods = require('../models/GameMods')
 /* Badges List */
 router.get('/badges', (req, res) =>{
     Badges.find({is_visible: true}, (err, badges) => {
-        if(err) logger.error(err)
+        if(err) logger.error(new Date().toISOString() + JSON.stringify(req.body) + err)
         res.json(badges)
     })
    
@@ -17,7 +17,7 @@ router.get('/badges', (req, res) =>{
 /* GameMods List */
 router.get('/gamemods', (req, res) =>{
     GameMods.find({is_visible: true}, (err, mods) => {
-        if(err) logger.error(err)
+        if(err) logger.error(new Date().toISOString() + JSON.stringify(req.body) + err)
         res.json(mods)
     })
    

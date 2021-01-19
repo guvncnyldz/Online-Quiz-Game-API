@@ -4,9 +4,10 @@ var lastman = require('../socket/routes/lastman')
 
 module.exports = (http) => {
     const wss = new ws.Server({server: http});
-    console.log("Birisi bağlandı")
 
     wss.on('connection', function connection(ws) {
+        console.log("Birisi bağlandı")
+
         ws.isAlive = true;
         ws.on('pong', () => {
             ws.isAlive = true

@@ -1,36 +1,32 @@
 const mongoose = require('mongoose');
-const Schema=mongoose.Schema;
+const Schema = mongoose.Schema;
 
-const ItemSchema = new Schema ({
+const ItemSchema = new Schema({
     race: Number,
-    photo: {
-        type: String,
-    },
-    item_name:{
+    item_name: {
         type: String,
         required: true
     },
-    coin_cost:{
+    sprite_name: {
+        type: String,
+        required: true
+    },
+    gold_cost: {
         type: Number,
         default: 0
     },
-    money_cost:{
+    money_cost: {
         type: Number,
         default: 0
     },
-    store:{
-        type: Boolean,
-        default: true
+    type: {
+        type: String,
+        default: 0
     },
-    type:{
-        type: Number,
-        default:0
-    }, /* 0: Baş, 1: Gövde, 2: Sağ El, 3: Sol El, 4: Bacak, 5: Ayak, 6: Aksesuar */
-    is_visible:{
+    is_visible: {
         type: Boolean,
         default: true
     }
+}, {collection: 'Items'})
 
-},{ collection: 'Items' })
-
-module.exports=mongoose.model('Items',ItemSchema);
+module.exports = mongoose.model('Items', ItemSchema);

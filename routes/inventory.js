@@ -13,7 +13,7 @@ router.put('/updatecosmetic', (req, res) => {
             head: head, body, hand, foot, eye, hair
         }
     Profile.updateOne({_id: pid}, {cosmetic: updateCosmetic}, (err) => {
-        if (err) logger.log(err)
+        if (err) logger.error(new Date().toISOString() + JSON.stringify(req.body) + err)
         else {
             res.json({
                 code: 200,
@@ -23,146 +23,32 @@ router.put('/updatecosmetic', (req, res) => {
     })
 });
 
-/** Kullanıcı Envanter Listesi */
+router.post('/getinventory', (req, res) => {
+    const {user_id} = req.body
 
-router.get('/useritems/:uid', (req, res) => {
-    Inventory.aggregate([
-        {
-            $match: {
-                user_id: mongoose.Types.ObjectId(req.params.uid),
-                is_visible: true
-            }
-        },
-        {
-            $lookup: {
-                from: "Items",
-                localField: "item_id",
-                foreignField: "_id",
-                as: "item"
-            }
-        },
-        {
-            $project: {
-                "_id": 1,
-                "item_id": 1,
-                "count": 1,
-                "item.item_name": 1,
-                "item.photo": 1,
-                "item.type": 1,
-                "item.race": 1
-            }
-        }
-    ], (err, inventory) => {
-        if (err) logger.error(err);
-        if (inventory.length == 0) {
-            logger.info(req.params.uid + " id'li envanter mevcut değildir.")
-            res.json({
-                status: false,
-                message: "Aradığınız bilgilere göre Envanter bulunmamaktadır."
-            })
-        } else {
+    Inventory.find({user_id}, (err, inventory) => {
+        if (err) logger.error(err)
+        else {
             res.json(inventory)
         }
-    })
-});
+    }).select("-_id -user_id")
+})
 
-/** Envanterdeki eşyayı kullan */
-router.put('/useitem/', (req, res) => {
-    const {item_id, user_id, item_type} = req.body;
-    Inventory.aggregate([
-        {
-            $lookup: {
-                from: "Items",
-                localField: "item_id",
-                foreignField: "_id",
-                as: "item"
-            }
-        },
-        {
-            $match: {
-                user_id: mongoose.Types.ObjectId(user_id),
-                is_visible: true,
-                active: true,
-                "item.type": item_type
-            }
-        },
-    ], (err, inventory) => {
-        if (err) logger.error(err);
-        if (inventory.length == 0) {
-            Inventory.updateOne(
-                {
-                    user_id: mongoose.Types.ObjectId(user_id),
-                    item_id: mongoose.Types.ObjectId(item_id)
-                },
-                {active: true}
-            ).then((err, item) => {
-                if (err) logger.error(err);
-                res.json({
-                    status: true,
-                    message: "İtem başarılı bir şekilde giyildi"
-                })
-            })
-        } else {
+router.post('/addinventory', (req, res) => {
+    const {user_id,sprite_name,type,name} = req.body
+    new Inventory({
+        user_id,
+        sprite_name,
+        type,
+        name
+    }).save((err) => {
+        if(err) logger.log(err)
+        else
             res.json({
-                status: false,
-                message: "Aynı tipte bir item zaten kullanılmakta"
+                code: 200,
+                message: "Ekleme Başarılı"
             })
-        }
     })
-});
-
-/** Envanterdeki eşyayı çıkar */
-router.put('/unuseitem/', (req, res) => {
-    const {item_id, user_id} = req.body;
-    Inventory.updateOne(
-        {
-            user_id: mongoose.Types.ObjectId(user_id),
-            item_id: mongoose.Types.ObjectId(item_id),
-            is_visible: true,
-        },
-        {active: false}
-    ).then((err, item) => {
-        if (err) logger.error(err);
-        res.json({
-            status: true,
-            message: "İtem başarılı bir şekilde çıkartıldı"
-        })
-    })
-});
-
-/** Envanterdeki item ı azaltma */
-router.put('/reduceitem/', (req, res) => {
-    const {item_id, user_id} = req.body;
-    Inventory.find(
-        {
-            user_id: mongoose.Types.ObjectId(user_id),
-            item_id: mongoose.Types.ObjectId(item_id),
-            is_visible: true,
-        }, (err, inventory) => {
-            if (err) logger.error(err);
-
-            if (inventory[0].count < 2) {
-                Inventory.findByIdAndUpdate(inventory[0]._id, {is_visible: false}, (err, item) => {
-                    if (err) logger.error(err);
-
-                    res.json({
-                        status: true,
-                        message: "İtem başarılı bir şekilde kaldırıldı"
-                    })
-                })
-            } else {
-                Inventory.findByIdAndUpdate(inventory[0]._id, {count: inventory[0].count - 1}, (err, item) => {
-                    if (err) logger.error(err);
-
-                    res.json({
-                        status: true,
-                        message: "İtem başarılı bir şekilde azaltıldı"
-                    })
-                })
-            }
-        }
-    )
-
-});
+})
 
 module.exports = router;

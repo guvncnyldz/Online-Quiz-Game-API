@@ -17,7 +17,7 @@ const ProfileSchema = new Schema ({
     },
     energy:{
         type: Number,
-        default: 0
+        default: 20
     },
     joker: {
         pass:{

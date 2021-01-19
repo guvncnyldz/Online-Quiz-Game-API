@@ -6,7 +6,7 @@ const Announcement = require('../models/Announcement')
 /* Announcement List */
 router.get('/list', (req, res) =>{
     Announcement.find({is_visible: true}, (err, announcement) => {
-        if(err) logger.error(err)
+        if(err) logger.error(new Date().toISOString() + JSON.stringify(req.body) + err)
         res.json(announcement)
     })
    

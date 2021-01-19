@@ -3,6 +3,7 @@ var game_server = require('../class/game-server')
 module.exports = (data, ws) => {
     switch (data.method) {
         case 'joinlastmanroom':
+            console.log(data)
             joinLastRoom(data, ws)
             break;
         case 'answer':
@@ -137,6 +138,8 @@ function SendAnswer(ws) {
                 return
 
             ws.room.players.forEach((player) => {
+                if(ws.room == null)
+                    return
                 result = {
                     pid: player.pid,
                     result: player.room.current_question.correct_answer == player.current_answer ? 1 : 0

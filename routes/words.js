@@ -14,7 +14,7 @@ router.post('/getWord', (req, res) => {
     }
 
     Words.countDocuments((err, word_count) => {
-        if (err) logger.log(err);
+        if (err) logger.error(new Date().toISOString() + JSON.stringify(req.body) + err);
 
         let successCount = 0;
         let words = []
@@ -43,7 +43,7 @@ router.post('/getWord', (req, res) => {
             randoms.push(random)
 
             Words.findOne((err, word) => {
-                if (err) logger.log(err);
+                if (err) logger.error(new Date().toISOString() + JSON.stringify(req.body) + err);
                 else if (word) {
                     words.push(word)
                     successCount++;
@@ -66,7 +66,6 @@ router.post('/addWord', (req, res) => {
     }).save().then((data) => {
         res.json(data)
     })
-
 });
 
 module.exports = router;

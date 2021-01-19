@@ -30,7 +30,7 @@ router.post('/getQuestion', (req, res) => {
     }
 
     Question.countDocuments((err, question_count) => {
-        if (err) logger.log(err);
+        if (err) logger.error(new Date().toISOString() + JSON.stringify(req.body) + err);
 
         let successCount = 0;
         let questions = []
@@ -38,7 +38,7 @@ router.post('/getQuestion', (req, res) => {
         for (i = 0; i < count; i++) {
             let random = Math.floor(Math.random() * question_count)
             Question.findOne((err, question) => {
-                if (err) logger.log(err);
+                if (err) logger.error(new Date().toISOString() + JSON.stringify(req.body) + err);
                 else if (question) {
                     questions.push(question);
                     successCount++;
@@ -63,12 +63,11 @@ router.post('/addWord', (req, res) => {
 });
 
 /* Soru İstatistiğini Güncelle */
-
 router.put('/answer', (req, res) => {
     const {is_correct, question_id} = req.body;
     let updateData = {}
 
-    is_correct == 1 ? updateData.true_answer = +1 : updateData.false_answer = +1
+    is_correct == 1 ? updateData.average = +1 : updateData.average = -1
     Question.findByIdAndUpdate(question_id, {$inc: updateData}).then(() => {
         res.json({
             code: 200,
