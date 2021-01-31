@@ -134,7 +134,7 @@ router.post('/login', (req, res) => {
                         message: "Girdiğiniz bilgilere ait kullanıcı bulunamadı."
                     });
             } else {
-                CreateToken(user._id, req, (token) => {
+                CreateToken(user[0]._id, req, (token) => {
                     User.updateOne({_id: mongoose.Types.ObjectId(user[0]._id)}, {
                         device_id,
                         is_login: true
@@ -212,7 +212,7 @@ router.post('/devicecontrol', (req, res) => {
         ], (err, user) => {
             if (err) logger.error(new Date().toISOString() + JSON.stringify(req.body) + err);
             if (user != 0) {
-                CreateToken(user._id, req, (token) => {
+                CreateToken(user[0]._id, req, (token) => {
                     res.json({
                         user: user[0],
                         token: token,
