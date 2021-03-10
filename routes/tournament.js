@@ -355,12 +355,12 @@ router.post('/checktournamentresult', (req, res) => {
                             })
 
                             if (!flag && count <= 3) {
-                                count = 4
+                                count = -1
                             }
 
                             let award = {}
 
-                            TournamentPlayers.deleteOne({user_id: user_id, tournament_id: tournament[0].tournament[0]._id}).exec()
+                            TournamentPlayers.updateOne({user_id: user_id, tournament_id: tournament[0].tournament[0]._id},{is_visible: false}).exec()
 
                             switch (count) {
                                 case 1:
@@ -375,6 +375,7 @@ router.post('/checktournamentresult', (req, res) => {
                                 default:
                                     award = {money_award: 0, gold_award: 0};
                             }
+
                             res.json(
                                 {
                                     count,
