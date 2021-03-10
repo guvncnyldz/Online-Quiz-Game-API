@@ -360,6 +360,8 @@ router.post('/checktournamentresult', (req, res) => {
 
                             let award = {}
 
+                            TournamentPlayers.deleteOne({user_id: user_id, tournament_id: tournament[0].tournament[0]._id}).exec()
+
                             switch (count) {
                                 case 1:
                                     award = {money_award: rank[0].money_award, gold_award: rank[0].gold_award};

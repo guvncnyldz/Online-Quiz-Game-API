@@ -343,3 +343,43 @@
 2021-01-31 18:48:39:4839 info: POST /api/tournament/gettournamentinfo 200 7.449 ms - 45
 2021-01-31 18:48:39:4839 info: POST /api/tournament/checktournamentresult 200 9.462 ms - 52
 2021-01-31 18:48:39:4839 info: POST /api/users/mainscreen 200 4.214 ms - 46
+2021-03-10 13:31:57:3157 info: Hatalı token işlemi gerçekleştirildi-Hatalı Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkZXZpY2VfaWQiOiJEcG9zdDEiLCJpYXQiOjE2MTAyNDY3ODMsImV4cCI6NDc2NjAwNjc4M30.zwNx-bFdwggjnfQVxZdBWi9V6f4abrBwRXowyyY-d9w
+2021-03-10 13:31:57:3157 info: {"user_id":"5ffa8858e9bd2f6d8c192a6a"}
+2021-03-10 13:31:57:3157 info: POST /api/tournament/gettournamentinfo 200 29.712 ms - 68
+2021-03-10 13:32:02:322 info: POST /auth/login 200 55.370 ms - 535
+2021-03-10 13:32:13:3213 info: POST /api/tournament/gettournamentinfo 200 8.504 ms - 157
+2021-03-10 13:32:37:3237 info: POST /api/tournament/gettournamentstatistic 200 34.434 ms - 2
+2021-03-10 13:32:49:3249 info: POST /api/tournament/gettournamentstatistic 200 13.374 ms - 700
+2021-03-10 13:32:58:3258 info: Hatalı token işlemi gerçekleştirildi-Hatalı Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkZXZpY2VfaWQiOiJEcG9zdDEiLCJpYXQiOjE2MTAyNDY3ODMsImV4cCI6NDc2NjAwNjc4M30.zwNx-bFdwggjnfQVxZdBWi9V6f4abrBwRXowyyY-d9w
+2021-03-10 13:32:58:3258 info: {"user_id":"5ffa8858e9bd2f6d8c192a6a"}
+2021-03-10 13:32:58:3258 info: POST /api/tournament/gettournamentinfo 200 2.734 ms - 68
+2021-03-10 13:34:07:347 info: Hatalı token işlemi gerçekleştirildi-Hatalı Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkZXZpY2VfaWQiOiJEcG9zdDEiLCJpYXQiOjE2MTAyNDY3ODMsImV4cCI6NDc2NjAwNjc4M30.zwNx-bFdwggjnfQVxZdBWi9V6f4abrBwRXowyyY-d9w
+2021-03-10 13:34:07:347 info: {"user_id":"5ffa8858e9bd2f6d8c192a6a"}
+2021-03-10 13:34:07:347 info: POST /api/tournament/gettournamentinfo 200 3.660 ms - 68
+2021-03-10 13:34:22:3422 info: POST /api/tournament/gettournamentinfo 200 5.965 ms - 157
+2021-03-10 13:34:32:3432 info: POST /api/tournament/gettournamentinfo 200 3.395 ms - 157
+2021-03-10 13:35:38:3538 info: POST /api/tournament/checktournamentresult 200 5.344 ms - 50
+2021-03-10 13:36:05:365 info: POST /api/tournament/checktournamentresult 200 6.408 ms - 50
+2021-03-10 13:36:06:366 info: POST /api/tournament/checktournamentresult 200 6.242 ms - 50
+2021-03-10 13:36:45:3645 info: POST /api/tournament/checktournamentresult 200 6.905 ms - 56
+2021-03-10 13:36:53:3653 info: POST /api/tournament/checktournamentresult 200 7.277 ms - 56
+2021-03-10 13:37:03:373 info: POST /api/tournament/checktournamentresult 200 6.093 ms - 57
+2021-03-10 13:37:10:3710 info: POST /api/tournament/checktournamentresult 200 7.079 ms - 56
+2021-03-10 13:37:43:3743 info: undefined isimli kullanıcının bilgileri yanlış girildi
+2021-03-10 13:37:43:3743 info: POST /auth/login 404 3.136 ms - 75
+2021-03-10 13:38:16:3816 info: Hatalı token işlemi gerçekleştirildi-Token Yok undefined
+2021-03-10 13:38:16:3816 info: {"username":"admin","password":"bilgiadmin"}
+2021-03-10 13:38:16:3816 info: POST /admin/login 200 0.733 ms - 68
+2021-03-10 13:38:36:3836 info: POST /adminauth/login 200 1.441 ms - 12
+2021-03-10 13:38:50:3850 info: POST /adminauth/login 200 5.060 ms - 178
+2021-03-10 13:39:11:3911 info: POST /admin/tournament/create 200 4.798 ms - 45
+2021-03-10 13:39:48:3948 info: Hatalı token işlemi gerçekleştirildi-Hatalı Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkZXZpY2VfaWQiOiJEcG9zdDEiLCJpYXQiOjE2MTAyNDY3ODMsImV4cCI6NDc2NjAwNjc4M30.zwNx-bFdwggjnfQVxZdBWi9V6f4abrBwRXowyyY-d9w
+2021-03-10 13:39:48:3948 info: {"tournament_id":"6048a1cf28791a02dc5146c5","user_id":"5ffa68fd3950be7294142084"}
+2021-03-10 13:39:48:3948 info: POST /api/tournament/jointournament 200 2.424 ms - 68
+2021-03-10 13:39:58:3958 info: POST /api/tournament/jointournament 200 12.064 ms - 47
+2021-03-10 13:40:19:4019 info: Hatalı token işlemi gerçekleştirildi-Hatalı Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkZXZpY2VfaWQiOiJEcG9zdDEiLCJpYXQiOjE2MTAyNDY3ODMsImV4cCI6NDc2NjAwNjc4M30.zwNx-bFdwggjnfQVxZdBWi9V6f4abrBwRXowyyY-d9w
+2021-03-10 13:40:19:4019 info: {"user_id":"5ffa68fd3950be7294142084"}
+2021-03-10 13:40:19:4019 info: POST /api/tournament/gettournamentinfo 200 2.568 ms - 68
+2021-03-10 13:40:32:4032 info: POST /api/tournament/gettournamentinfo 200 4.050 ms - 157
+2021-03-10 13:40:42:4042 info: POST /api/tournament/checktournamentresult 200 9.757 ms - 57
+2021-03-10 13:40:45:4045 info: POST /api/tournament/checktournamentresult 200 7.722 ms - 57
