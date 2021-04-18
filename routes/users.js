@@ -94,6 +94,30 @@ router.put('/updateuser', (req, res) => {
     })
 });
 
+router.post('/isuserexist',(req, res) => {
+    const {user_name} = req.body
+
+    User.find({user_name}, (err, user) => {
+        if (err) {
+            logger.error(new Date().toISOString() + JSON.stringify(req.body) + err)
+            throw err;
+        }
+        if (user.length != 0) {
+            res.json({
+                code: 200,
+                message: "Bu kullanıcı bulunmakta"
+            })
+        }
+        else
+        {
+            res.json({
+                code: 403,
+                message: "Bu kullanıcı bulunmamakta"
+            })
+        }
+    })
+})
+
 router.post('/mainscreen', (req, res) => {
     const {user_id} = req.body;
     User.findOne({_id: user_id}, (err, user) => {

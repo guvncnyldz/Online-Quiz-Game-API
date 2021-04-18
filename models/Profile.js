@@ -36,32 +36,32 @@ const ProfileSchema = new Schema ({
     cosmetic: {
         head: {
             type: String,
-            default: "default"
+            default: "head_default"
 
         },
         body: {
             type: String,
-            default: "default"
+            default: "body_default"
 
         },
         foot: {
             type: String,
-            default: "default"
+            default: "foot_default"
 
         },
         hand: {
             type: String,
-            default: "default"
+            default: "hand_default"
 
         },
         hair: {
             type: String,
-            default: "default"
+            default: "hair_default"
 
         },
         eye: {
             type: String,
-            default: "default"
+            default: "eye_default"
         },
     },
     badges:[],

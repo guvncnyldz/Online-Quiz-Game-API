@@ -35,10 +35,10 @@ router.post('/getinventory', (req, res) => {
 })
 
 router.post('/addinventory', (req, res) => {
-    const {user_id,sprite_name,type,name} = req.body
+    const {user_id,sprite_id,type,name} = req.body
     new Inventory({
         user_id,
-        sprite_name,
+        sprite_id,
         type,
         name
     }).save((err) => {

@@ -10,7 +10,6 @@ var userRouter = require('./routes/users');
 var inventoryRouter = require('./routes/inventory');
 var jokerRouter = require('./routes/jokers');
 var tournamentRouter = require('./routes/tournament');
-var storeRouter = require('./routes/store')
 var announcementRouter = require('./routes/announcement')
 var definationRouter = require('./routes/defination')
 var questionRouter = require('./routes/question')
@@ -18,7 +17,6 @@ var wordRouter = require('./routes/words')
 
 var adminLoginRouter = require('./routes/Admin/adminlogin')
 var adminQuestionRouter = require('./routes/Admin/adminquestion')
-var adminCosmeticRouter = require('./routes/Admin/admincosmetic')
 var adminTournamentRouter = require('./routes/Admin/admintournament')
 var adminWordRouter = require('./routes/Admin/adminword')
 
@@ -55,7 +53,6 @@ app.use('/api',verifyToken);
 app.use('/api/users', userRouter);
 app.use('/api/inventory', inventoryRouter);
 app.use('/api/joker', jokerRouter);
-app.use('/api/store', storeRouter)
 app.use('/api/announcement', announcementRouter)
 app.use('/api/defination', definationRouter)
 app.use('/api/question', questionRouter)
@@ -65,7 +62,6 @@ app.use('/api/score', scoreRouter)
 
 app.use('/admin/question', adminQuestionRouter)
 app.use('/admin/word', adminWordRouter)
-app.use('/admin/cosmetic', adminCosmeticRouter)
 app.use('/admin/tournament', adminTournamentRouter)
 app.use('/adminauth', adminLoginRouter)
 

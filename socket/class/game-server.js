@@ -1,7 +1,7 @@
 const Question = require('../../models/Questions')
 const {logger} = require('../../utils');
 
-const total_count = 2;
+const total_count = 4;
 exports.servers = rooms = []
 
 module.exports.SetServer = (player) => {

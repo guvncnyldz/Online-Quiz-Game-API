@@ -3,7 +3,7 @@ const Schema=mongoose.Schema;
 
 const InventorySchema = new Schema ({
     user_id: Schema.Types.ObjectId,
-    sprite_name:{
+    sprite_id:{
         type: String,
         default: false
     },
